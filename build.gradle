@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.stdy.mensageria'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation group: 'org.apache.activemq', name: 'activemq-all', version: '5.15.9'
+}
