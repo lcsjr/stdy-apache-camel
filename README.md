@@ -1,2 +1,2 @@
-# stdy-apache-camel
-Estudo de case com apache camel
+# stdy-mensageria
+Sistema de mensageria
