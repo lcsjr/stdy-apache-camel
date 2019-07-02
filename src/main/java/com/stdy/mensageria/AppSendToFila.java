@@ -9,12 +9,13 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
+import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-public class App {
+public class AppSendToFila {
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) throws NamingException, JMSException {
@@ -28,29 +29,15 @@ public class App {
 		Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		
 		Destination destination = (Destination) context.lookup("financeiro");
-		MessageConsumer consumer = session.createConsumer(destination);
-		
-//		Message message = consumer.receive();
-//		System.out.println("Recebendo apenas uma mensagem: "+ message);
-		
-		consumer.setMessageListener( new MessageListener() {
-			
-			@Override
-			public void onMessage(Message message) {
-				
-				TextMessage textMessage = (TextMessage) message; 
-				
-				try {
-					System.out.println(textMessage.getText());
-				} catch (JMSException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		
 
-		new Scanner(System.in).nextLine();
+		MessageProducer producer = session.createProducer(destination);
+		
+		for (int i=0;i<1000;i++) {
+		
+			Message message = session.createTextMessage("<pedido><numero>"+i+"</numero></pedido>");
+			producer.send(message);
+		}
+		
 		
 		session.close();
 		connection.close();
